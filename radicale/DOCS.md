@@ -1,24 +1,43 @@
 # Radicale
 
-Radicale CalDAV/CardDAV for Home Assistant OS.
+Radicale CalDAV/CardDAV for Home Assistant OS with automatic publicly trusted HTTPS.
 
-## HTTPS setup
+## Configuration
 
-Version 0.2.0 generates a persistent private local CA and an HTTPS certificate for the configured `certificate_ip`.
+Set:
 
-1. Set `certificate_ip` to the Home Assistant machine's fixed/reserved LAN IPv4 address.
-2. Start the app.
-3. On an iPhone/iPad, open `http://HOME_ASSISTANT_IP:5233/radicale-local-ca.crt` in Safari.
-4. Install the downloaded profile in Settings.
-5. Go to **Settings → General → About → Certificate Trust Settings** and enable full trust for **Home Assistant Radicale Local CA**.
-6. Radicale is then available at `https://HOME_ASSISTANT_IP:5232`.
+- `username`: the household CalDAV username.
+- `password`: the household CalDAV password.
+- `domain`: your DuckDNS hostname, for example `harrison-household.duckdns.org`.
+- `duckdns_token`: your DuckDNS token.
 
-Port 5233 serves only the public CA certificate. The CA private key remains in the app's persistent `/data` directory.
+The app uses DuckDNS DNS-01 validation to obtain and renew a Let's Encrypt certificate. No private CA or certificate profile is required on phones.
+
+## Eero
+
+Reserve the Home Assistant machine's LAN address, then create a TCP port forward:
+
+- External port: 443
+- Device: Home Assistant
+- Internal port: 5232
+
+Do not forward port 80 or Home Assistant's own port 8123 for this app.
 
 ## Apple Reminders
 
-Add a CalDAV account using the Home Assistant LAN IP, the configured Radicale username/password, SSL enabled, and port 5232.
+Add a CalDAV account on each iPhone using:
+
+- Server: `harrison-household.duckdns.org`
+- SSL: enabled
+- Port: 443
+- Username/password: the Radicale credentials
+
+Both phones can use the same Radicale account and therefore the same task collections.
+
+## Certificate renewal
+
+Certificate state is stored under the app's persistent `/data` directory. On startup, the app checks the certificate and renews it through DuckDNS when it is within 30 days of expiry.
 
 ## Data
 
-Collections, authentication data and TLS material are stored persistently under `/data`.
+Radicale collections, authentication data, ACME state and TLS certificates are persistent under `/data`.
