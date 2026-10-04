@@ -1,5 +1,5 @@
 name: Radicale
-version: "0.3.5"
+version: "0.3.6"
 slug: radicale
 description: Lightweight CalDAV and CardDAV server for Home Assistant
 url: https://github.com/njharrison/home-assistant-radicale
@@ -9,9 +9,9 @@ arch:
 startup: services
 boot: auto
 init: false
-webui: "https://harrison-household.duckdns.org/"
+webui: "https://[HOST]:[PORT:5232]/"
 ports:
-  5232/tcp: 443
+  5232/tcp: 5232
 ports_description:
   5232/tcp: Radicale CalDAV/CardDAV HTTPS
 options:
