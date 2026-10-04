@@ -10,7 +10,6 @@ if [ -z "$PASSWORD" ]; then
 fi
 
 mkdir -p /data/collections /data/config
-
 htpasswd -Bbc /data/users "$USERNAME" "$PASSWORD" >/dev/null 2>&1
 
 cat > /data/config/config <<'EOF'

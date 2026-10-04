@@ -12,22 +12,14 @@ This app runs a lightweight Radicale CalDAV/CardDAV server on Home Assistant OS.
 
 ## Home Assistant
 
-Add the **CalDAV** integration and point it at:
+Add the **CalDAV** integration and point it at `http://HOME_ASSISTANT_IP:5232`.
 
-`http://HOME_ASSISTANT_IP:5232`
-
-Use the same Radicale username and password.
-
-VTODO collections can then be exposed by Home Assistant as to-do entities.
+Use the same Radicale username and password. VTODO collections can then be exposed by Home Assistant as to-do entities.
 
 ## Apple Reminders
 
-On iPhone, go to:
-
-**Settings → Apps → Reminders → Reminders Accounts → Add Account → Other → Add CalDAV Account**
-
-Use your Home Assistant host/IP as the server and the Radicale credentials configured above.
+On iPhone, go to **Settings → Apps → Reminders → Reminders Accounts → Add Account → Other → Add CalDAV Account** and use your Home Assistant host/IP plus the Radicale credentials.
 
 ## Data
 
-Radicale collections and authentication data are stored under the app's persistent `/data` directory and are included with app backups.
+Radicale collections and authentication data are stored under the app's persistent `/data` directory.
