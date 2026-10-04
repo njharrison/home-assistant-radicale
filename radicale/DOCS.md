@@ -1,25 +1,24 @@
 # Radicale
 
-This app runs a lightweight Radicale CalDAV/CardDAV server on Home Assistant OS.
+Radicale CalDAV/CardDAV for Home Assistant OS.
 
-## Setup
+## HTTPS setup
 
-1. Set a username and password in the app configuration.
+Version 0.2.0 generates a persistent private local CA and an HTTPS certificate for the configured `certificate_ip`.
+
+1. Set `certificate_ip` to the Home Assistant machine's fixed/reserved LAN IPv4 address.
 2. Start the app.
-3. Open `http://HOME_ASSISTANT_IP:5232` on your local network.
-4. Sign in with the username and password you configured.
-5. Create a calendar/task collection in Radicale.
+3. On an iPhone/iPad, open `http://HOME_ASSISTANT_IP:5233/radicale-local-ca.crt` in Safari.
+4. Install the downloaded profile in Settings.
+5. Go to **Settings → General → About → Certificate Trust Settings** and enable full trust for **Home Assistant Radicale Local CA**.
+6. Radicale is then available at `https://HOME_ASSISTANT_IP:5232`.
 
-## Home Assistant
-
-Add the **CalDAV** integration and point it at `http://HOME_ASSISTANT_IP:5232`.
-
-Use the same Radicale username and password. VTODO collections can then be exposed by Home Assistant as to-do entities.
+Port 5233 serves only the public CA certificate. The CA private key remains in the app's persistent `/data` directory.
 
 ## Apple Reminders
 
-On iPhone, go to **Settings → Apps → Reminders → Reminders Accounts → Add Account → Other → Add CalDAV Account** and use your Home Assistant host/IP plus the Radicale credentials.
+Add a CalDAV account using the Home Assistant LAN IP, the configured Radicale username/password, SSL enabled, and port 5232.
 
 ## Data
 
-Radicale collections and authentication data are stored under the app's persistent `/data` directory.
+Collections, authentication data and TLS material are stored persistently under `/data`.
