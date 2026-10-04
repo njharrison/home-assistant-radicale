@@ -43,7 +43,7 @@ fi
 
 cat > /data/config/radicale.conf <<EOF
 [server]
-hosts = 0.0.0.0:443
+hosts = 0.0.0.0:5232
 ssl = True
 certificate = /data/tls/fullchain.pem
 key = /data/tls/privkey.pem
