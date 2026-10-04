@@ -20,6 +20,13 @@ fi
 export DuckDNS_Token="$DUCKDNS_TOKEN"
 ACME=/data/acme/acme.sh
 
+# 0.3.0 accidentally registered acme.sh with radicale@localhost. Remove only
+# that stale account state; collections and Radicale data are untouched.
+if grep -Rqs 'radicale@localhost' /data/acme 2>/dev/null; then
+  bashio::log.info "Removing stale ACME account registration from v0.3.0"
+  rm -rf /data/acme/ca/acme-v02.api.letsencrypt.org
+fi
+
 bashio::log.info "Checking Let's Encrypt certificate for $DOMAIN"
 if [ ! -s /data/tls/fullchain.pem ] || ! openssl x509 -checkend 2592000 -noout -in /data/tls/fullchain.pem >/dev/null 2>&1; then
   "$ACME" --home /data/acme --server letsencrypt --issue --dns dns_duckdns -d "$DOMAIN" --keylength ec-256
