@@ -1,0 +1,21 @@
+name: Radicale
+version: "0.1.0"
+slug: radicale
+description: Lightweight CalDAV and CardDAV server for Home Assistant
+url: https://github.com/njharrison/home-assistant-radicale
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+init: false
+ports:
+  5232/tcp: 5232
+ports_description:
+  5232/tcp: Radicale CalDAV/CardDAV
+options:
+  username: homeassistant
+  password: ""
+schema:
+  username: str
+  password: password
