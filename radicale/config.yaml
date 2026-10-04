@@ -1,5 +1,5 @@
 name: Radicale
-version: "0.3.6"
+version: "0.3.7"
 slug: radicale
 description: Lightweight CalDAV and CardDAV server for Home Assistant
 url: https://github.com/njharrison/home-assistant-radicale
