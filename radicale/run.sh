@@ -20,6 +20,24 @@ fi
 export DuckDNS_Token="$DUCKDNS_TOKEN"
 ACME=/data/acme/acme.sh
 
+DUCKDNS_SUBDOMAIN="${DOMAIN%.duckdns.org}"
+update_duckdns() {
+  RESPONSE="$(curl -fsS "https://www.duckdns.org/update?domains=${DUCKDNS_SUBDOMAIN}&token=${DUCKDNS_TOKEN}&ip=" || true)"
+  if [ "$RESPONSE" = "OK" ]; then
+    bashio::log.info "DuckDNS address updated for $DOMAIN"
+  else
+    bashio::log.warning "DuckDNS address update failed: ${RESPONSE:-no response}"
+  fi
+}
+
+# Keep the public hostname pointed at this network's current public IPv4.
+update_duckdns
+(
+  while sleep 300; do
+    update_duckdns
+  done
+) &
+
 # 0.3.0 accidentally registered acme.sh with radicale@localhost. Remove only
 # that stale account state; collections and Radicale data are untouched.
 if grep -Rqs 'radicale@localhost' /data/acme 2>/dev/null; then
