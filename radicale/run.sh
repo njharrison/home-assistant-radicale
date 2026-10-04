@@ -23,7 +23,8 @@ ACME=/data/acme/acme.sh
 # 0.3.0 accidentally registered acme.sh with radicale@localhost. Remove only
 # that stale account state; collections and Radicale data are untouched.
 if grep -Rqs 'radicale@localhost' /data/acme 2>/dev/null; then
-  bashio::log.info "Removing stale ACME account registration from v0.3.0"
+  bashio::log.info "Removing invalid ACME contact from v0.3.0"
+  find /data/acme -type f -name 'account.conf' -exec sed -i "/ACCOUNT_EMAIL=.*radicale@localhost/d" {} \;
   rm -rf /data/acme/ca/acme-v02.api.letsencrypt.org
 fi
 
